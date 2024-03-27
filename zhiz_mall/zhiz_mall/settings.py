@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-90osuv^-xv_(=np-x5pxlj#j!=63sl56)-d38s=8*5(z%b(b%)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.meiduo.site', 'loaclhost', '127.0.0.1']
+ALLOWED_HOSTS = ['www.meiduo.site', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -40,9 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.users',
     'corsheaders',
+    'apps.verifications',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -50,7 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'zhiz_mall.urls'
@@ -188,7 +191,7 @@ LOGGING = {
         'file': {
             'level': 'ERROR',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': 'myapp.log',
+            'filename': 'myapp.log_%(asctime)s',
             'maxBytes': 10240,  # 10MB
             'backupCount': 5,
         },
@@ -221,6 +224,8 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:8080',
     'http://www.meiduo.site:8080',
     'http://www.meiduo.site:8000',
+    # 'http://www.meiduo.site:8080',
+    'https://www.meiduo.site:8080',
 )
 
 # 允许携带cookie

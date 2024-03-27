@@ -61,23 +61,3 @@ class RegisterView(View):
         return JsonResponse({'code': 0, 'errmsg': 'ok'})
     
 
-class ImageCodeView(View):
-    '''图片验证码'''
-    def get(self, request, uuid):
-        # 生成图片验证码
-        # 调用captcha生成图片验证码
-        # 生成图片验证码
-        text, image = captcha.generate_captcha()
-        # 保存图片验证码
-        redis_cli = get_redis_connection('code')
-        redis_cli.setex('img_{}'.format(uuid), 300, text)
-        # 返回图片二进制文件, 响应体类型,content_type
-        return HttpResponse(image, content_type='image/jpeg')
-
-
-class SMSCodeView(View):
-    '''短信验证码'''
-    def get(self, request, mobile):
-        # 生成短信验证码
-        # 生成短信验证码
-
