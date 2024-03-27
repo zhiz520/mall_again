@@ -158,3 +158,53 @@ CACHES = {
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_CACHE_ALIAS = 'session'
+
+
+# 配置日志
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'console': {
+            'format': '%(asctime)s %(name)s %(levelname)s %(message)s',
+        },
+        'file': {
+            'format': '%(asctime)s %(name)s %(levelname)s %(message)s',
+        },
+    },
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'filters': ['require_debug_true'],
+        },
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'myapp.log',
+            'maxBytes': 10240,  # 10MB
+            'backupCount': 5,
+        },
+    },
+    'loggers': {
+        '': {  # 通用logger
+            'handlers': ['console', 'file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'django': {  # Django的默认logger
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+        'myapp': {  # 自定义的logger
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+}
+
