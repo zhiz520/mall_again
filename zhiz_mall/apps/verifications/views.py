@@ -45,9 +45,14 @@ class SmsCodeView(View):
         # 生成短信验证码
         sms_code = '%06d' % random.randint(0, 999999)
         # 保存短信验证码
-        redis_cli.setex('sms_{}'.format(mobile), 3000, sms_code)
-        # 设置标记防止频繁注册
-        redis_cli.setex('send_flag_{}'.format(mobile), 60, 1)
+        # redis_cli.setex('sms_{}'.format(mobile), 3000, sms_code)
+        # # 设置标记防止频繁注册
+        # redis_cli.setex('send_flag_{}'.format(mobile), 60, 1)
+        # 使用pipelin管道技术
+        pipeline = redis_cli.pipeline()
+        pipeline.setex('sms_{}'.format(mobile), 3000, sms_code)
+        pipeline.setex('send_flag_{}'.format(mobile), 60, 1)
+        pipeline.execute()
         # 发送短信验证码
         CCP().send_template_sms(mobile, [sms_code, 5], 1)
         
