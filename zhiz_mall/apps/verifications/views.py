@@ -37,14 +37,20 @@ class SmsCodeView(View):
         print('\n', type(code), '\n')
         if code.decode().lower() != img_code.lower():
             return JsonResponse({'code': 400, 'errmsg': '图片验证码错误'})
+        # 提取标记检查是否短时间内再次注册
+        send_flag = redis_cli.get('send_flag_{}'.format(mobile))
+        if send_flag is not None:
+            return JsonResponse({'code': 400, 'errmsg': '请求过于频繁'})
         
         # 生成短信验证码
         sms_code = '%06d' % random.randint(0, 999999)
         # 保存短信验证码
         redis_cli.setex('sms_{}'.format(mobile), 3000, sms_code)
+        # 设置标记防止频繁注册
+        redis_cli.setex('send_flag_{}'.format(mobile), 60, 1)
         # 发送短信验证码
-        # 调用云通讯发送短信
         CCP().send_template_sms(mobile, [sms_code, 5], 1)
+        
         # 返回响应
         return JsonResponse({'code': 0, 'errmsg': 'ok'})
 
