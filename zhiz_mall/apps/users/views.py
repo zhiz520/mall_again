@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.views import View
 from apps.users.models import User
 from django.http import JsonResponse
+from django.contrib.auth import login, logout, authenticate
+
 import json
 import re
 
@@ -50,6 +52,8 @@ class RegisterView(View):
         #     return JsonResponse({'code': 400, 'errmsg': '必须同意协议'})
         # 保存用户数据
         user = User.objects.create_user(username=username, password=password, mobile=mobile)
+        login(request, user)
+        
 
         # 返回结果
         return JsonResponse({'code': 0, 'errmsg': 'ok'})
