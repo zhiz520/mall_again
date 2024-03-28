@@ -3,6 +3,7 @@ from django.views import View
 from apps.users.models import User
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import login, logout, authenticate
+
 from django_redis import get_redis_connection
 from libs.captcha.captcha import captcha
 
@@ -78,7 +79,7 @@ class LoginView(View):
             User.USERNAME_FIELD = 'mobile'
         else:
             User.USERNAME_FIELD = 'username'
-            
+
         user = authenticate(username=username, password=password)
         if user is None:
             return JsonResponse({'code': 400, 'errmsg': '用户名或密码错误'})
@@ -97,6 +98,13 @@ class LoginView(View):
         return response
     
 
-        
+class LogoutView(View):
+    '''用户退出'''
+    def delete(self, request):
+        logout(request)
+        # 删除cookie
+        response = JsonResponse({'code': 0, 'errmsg': 'ok'})
+        response.delete_cookie('username')
+        return response
         
         
