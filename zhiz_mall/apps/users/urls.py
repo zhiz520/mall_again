@@ -1,4 +1,4 @@
-from apps.users.views import CenterView, EmailView, LogoutView, UserCountView, RegisterView, LoginView
+from apps.users.views import EmailVerifyView,CenterView, EmailView, LogoutView, UserCountView, RegisterView, LoginView
 from django.urls import path
 
 
@@ -9,5 +9,5 @@ urlpatterns = [
     path('logout/', LogoutView.as_view()),
     path('info/', CenterView.as_view()),
     path('emails/', EmailView.as_view()),
-    
+    path('emails/verification/', EmailVerifyView.as_view()),
 ]

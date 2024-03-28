@@ -142,10 +142,35 @@ class EmailView(LoginJsonMixin, View):
         user.save()
         # 发送激活邮件
         # 加密email
-        token = crypt_encode(email)
+        token = crypt_encode(user.id)
         # 激活链接
         html_message = '点击激活 <a href=http://www.zhiz.com/?token={}> 激活</a>'.format(token)
         send_mail('枝枝邮箱验证', '', 'qi_rui_hua@163.com', [email], html_message='')
 
         # 返回结果
         return JsonResponse({'code': 0, 'errmsg': 'ok'})
+    
+class EmailVerifyView(View):
+    '''邮箱验证'''
+    def put(self, request):
+        # 获取参数
+        data = json.loads(request.body.decode())
+        token = data.get('token')
+        # 校验参数
+        if not token:
+            return JsonResponse({'code': 400, 'errmsg': '缺少token参数'})
+        
+        # 解密token
+        user_id = crypt_encode(token)
+        # 查询数据库
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return JsonResponse({'code': 400, 'errmsg': '无效的token'})
+        # 修改邮箱激活状态
+        user.email_active = True
+        user.save()
+        # 返回结果
+        return JsonResponse({'code': 0, 'errmsg': 'ok'})
+        
+        
