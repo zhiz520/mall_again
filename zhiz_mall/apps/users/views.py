@@ -7,7 +7,7 @@ from django.contrib.auth import login, logout, authenticate
 from django_redis import get_redis_connection
 from libs.captcha.captcha import captcha
 from utils.views1 import LoginJsonMixin
-
+from utils.models1 import Basemodel
 import json
 import re
 
@@ -113,4 +113,4 @@ class LogoutView(View):
 class CenterView(LoginJsonMixin, View):
     '''用户中心'''
     def get(self, request):
-        
+        pass
