@@ -5,9 +5,8 @@ from django.http import JsonResponse
 from django.contrib.auth import login, logout, authenticate
 from django.core.mail import send_mail
 
-from mall_again.zhiz_mall.utils.crypts1 import crypt_encode
+from utils.crypts1 import crypt_encode, crypt_decode
 from utils.views1 import LoginJsonMixin
-from utils.models1 import Basemodel
 import json
 import re
 
