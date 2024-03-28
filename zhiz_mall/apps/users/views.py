@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.views import View
-from apps.users.models import User
+from apps.users.models import User, Address
 from django.http import JsonResponse
 from django.contrib.auth import login, logout, authenticate
 from django.core.mail import send_mail
+from django.core.serializers import serialize
 
 from utils.crypts1 import crypt_encode, crypt_decode
 from utils.views1 import LoginJsonMixin
@@ -107,8 +108,7 @@ class LogoutView(View):
         response.delete_cookie('username')
         return response
         
-        
-
+    
 class CenterView(LoginJsonMixin, View):
     '''用户中心'''
     def get(self, request):
@@ -148,7 +148,8 @@ class EmailView(LoginJsonMixin, View):
 
         # 返回结果
         return JsonResponse({'code': 0, 'errmsg': 'ok'})
-    
+
+
 class EmailVerifyView(View):
     '''邮箱验证'''
     def put(self, request):
@@ -172,4 +173,85 @@ class EmailVerifyView(View):
         # 返回结果
         return JsonResponse({'code': 0, 'errmsg': 'ok'})
         
+
+class AddressCreateView(View):
+    '''新增地址'''
+    def post(self, request):
+        # 获取参数
+        data = json.loads(request.body.decode())
+        receiver = data.get('receiver')
+        province_id = data.get('province_id')
+        city_id = data.get('city_id')
+        district_id = data.get('district_id')
+        place = data.get('place')
+        mobile = data.get('mobile')
+        tel = data.get('tel')
+        email = data.get('email')
+
+        # 校验参数
+        if not all([receiver, province_id, city_id, district_id, place, mobile]):
+            return JsonResponse({'code': 400, 'errmsg': '缺少必传参数'})
         
+        if not re.match(r'^1[3-9]\d{9}$', mobile):
+            return JsonResponse({'code': 400, 'errmsg': '手机号不满足规则'})
+        
+        # 数据入库
+        user = request.user
+        addresses = Address.objects.create(
+            user=user,
+            title=receiver,
+            receiver=receiver,
+            province_id=province_id,
+            city_id=city_id,
+            district_id=district_id,
+            place=place,
+            mobile=mobile,
+            tel=tel,
+            email=email
+        )
+        # 设置返回Json数据
+        address_dict = {
+            "id": addresses.id,
+            "title": addresses.title,
+            "receiver": addresses.receiver,
+            "province": addresses.province.name,
+            "city": addresses.city.name,
+            "district": addresses.district.name,
+            "place": addresses.place,
+            "mobile": addresses.mobile,
+            "tel": addresses.tel,
+            "email": addresses.email
+        }
+
+        # 返回结果
+        return JsonResponse({'code': 0, 'errmsg': 'ok', 'addresses': address_dict})
+
+
+class AddressView(View):
+    '''查询视图'''
+    def get(self, request):
+        # 获取参数
+        user = request.user
+        # 查询地址
+        addresses = Address.objects.filter(user=user, is_deleted=False)
+        # 构造返回数据
+        address_list = []
+        for address in addresses:
+            address_list.append({
+                "id": address.id,
+                "title": address.title,
+                "receiver": address.receiver,
+                "province": address.province.name,
+                "city": address.city.name,
+                "district": address.district.name,
+                "place": address.place,
+                "mobile": address.mobile,
+                "tel": address.tel,
+                "email": address.email
+            })
+            
+        # 返回结果
+        return JsonResponse({'code': 0, 'errmsg': 'ok', 'addresses': address_list})
+    
+
+
