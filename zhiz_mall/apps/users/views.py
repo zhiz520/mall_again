@@ -172,7 +172,7 @@ class EmailVerifyView(View):
         user.save()
         # 返回结果
         return JsonResponse({'code': 0, 'errmsg': 'ok'})
-        
+
 
 class AddressCreateView(View):
     '''新增地址'''
@@ -252,6 +252,58 @@ class AddressView(View):
             
         # 返回结果
         return JsonResponse({'code': 0, 'errmsg': 'ok', 'addresses': address_list})
+    
+
+class AddressUpdateView(View):
+    '''修改地址'''
+    def put(self, request, address_id):
+        # 获取参数
+        data = json.loads(request.body.decode())
+        try:
+            address = Address.objects.get(id=address_id)
+        except Address.DoesNotExist:
+            return JsonResponse({'code': 400, 'errmsg': '地址不存在'})
+        
+        # 修改地址
+        for key, value in data.items():
+            if hasattr(address, key):
+                setattr(address, key, value)
+        address.save()
+        # 返回结果
+        return JsonResponse({'code': 0, 'errmsg': 'ok'})
+
+
+class AddressDeleteView(View):
+    '''删除地址'''
+    def delete(self, request, address_id):
+        # 获取参数
+        try:
+            address = Address.objects.get(id=address_id)
+            # 修改地址
+            address.is_deleted = True
+            address.save()
+            
+        except Address.DoesNotExist:
+            return JsonResponse({'code': 400, 'errmsg': '地址不存在'})
+        # 返回结果
+        return JsonResponse({'code': 0, 'errmsg': 'ok'})
+    
+
+class AddressDefaultView(View):
+    '''设置默认地址'''
+    def put(self, request, address_id):
+        # 获取参数
+        try:
+            address = Address.objects.get(id=address_id)
+            # 修改地址
+            user = request.user
+            user.default_address = address
+            user.save()
+            
+        except Address.DoesNotExist:
+            return JsonResponse({'code': 400, 'errmsg': '地址不存在'})
+        # 返回结果
+        return JsonResponse({'code': 0, 'errmsg': 'ok'})
     
 
 
