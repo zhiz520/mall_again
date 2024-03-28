@@ -1,4 +1,4 @@
-from apps.users.views import LogoutView, UserCountView, RegisterView, LoginView
+from apps.users.views import CenterView, LogoutView, UserCountView, RegisterView, LoginView
 from django.urls import path
 
 
@@ -7,4 +7,6 @@ urlpatterns = [
     path('register/', RegisterView.as_view()),
     path('login/', LoginView.as_view()),
     path('logout/', LogoutView.as_view()),
+    path('info/', CenterView.as_view()),
+    
 ]

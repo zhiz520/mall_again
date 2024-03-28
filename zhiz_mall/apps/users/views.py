@@ -111,4 +111,12 @@ class LogoutView(View):
 class CenterView(LoginJsonMixin, View):
     '''用户中心'''
     def get(self, request):
-        pass
+        
+        info_data = {
+            'username': request.user.username,
+            'mobile': request.user.mobile,
+            'email': request.user.email,
+            'email_active': request.user.email_active
+        }
+
+        return JsonResponse({'code': 0, 'errmsg': 'ok', 'info_data': info_data})
