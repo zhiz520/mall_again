@@ -1,11 +1,9 @@
 from django.shortcuts import render
 from django.views import View
 from apps.users.models import User
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.contrib.auth import login, logout, authenticate
 
-from django_redis import get_redis_connection
-from libs.captcha.captcha import captcha
 from utils.views1 import LoginJsonMixin
 from utils.models1 import Basemodel
 import json

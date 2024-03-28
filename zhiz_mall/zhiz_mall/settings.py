@@ -113,7 +113,7 @@ DATABASES = {
     }
 }
 
-DATABASE_ROUTERS = ['utils.db_router.MasterSlaveDBRouter']
+# DATABASE_ROUTERS = ['utils.db_router.MasterSlaveDBRouter']
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
