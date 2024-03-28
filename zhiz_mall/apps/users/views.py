@@ -6,6 +6,7 @@ from django.contrib.auth import login, logout, authenticate
 
 from django_redis import get_redis_connection
 from libs.captcha.captcha import captcha
+from utils.views1 import LoginJsonMixin
 
 import json
 import re
@@ -107,4 +108,9 @@ class LogoutView(View):
         response.delete_cookie('username')
         return response
         
+        
+
+class CenterView(LoginJsonMixin, View):
+    '''用户中心'''
+    def get(self, request):
         
