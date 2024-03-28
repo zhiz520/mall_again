@@ -3,7 +3,9 @@ from django.views import View
 from apps.users.models import User
 from django.http import JsonResponse
 from django.contrib.auth import login, logout, authenticate
+from django.core.mail import send_mail
 
+from mall_again.zhiz_mall.utils.crypts1 import crypt_encode
 from utils.views1 import LoginJsonMixin
 from utils.models1 import Basemodel
 import json
@@ -120,3 +122,30 @@ class CenterView(LoginJsonMixin, View):
         }
 
         return JsonResponse({'code': 0, 'errmsg': 'ok', 'info_data': info_data})
+    
+
+class EmailView(LoginJsonMixin, View):
+    '''邮箱'''
+    def put(self, request):
+        # 获取参数
+        data = json.loads(request.body.decode())
+        email = data.get('email')
+        # 校验参数
+        if not email:
+            return JsonResponse({'code': 400, 'errmsg': '缺少email参数'})
+        # 校验邮箱是否满足规则
+        if not re.match(r'^[a-z0-9][\w\.\-]*@[a-z0-9\-]+(\.[a-z]{2,5}){1,2}$', email):
+            return JsonResponse({'code': 400, 'errmsg': '邮箱不满足规则'})
+        # 保存邮箱
+        user = request.user
+        user.email = email
+        user.save()
+        # 发送激活邮件
+        # 加密email
+        token = crypt_encode(email)
+        # 激活链接
+        html_message = '点击激活 <a href=http://www.zhiz.com/?token={}> 激活</a>'.format(token)
+        send_mail('枝枝邮箱验证', '', 'qi_rui_hua@163.com', [email], html_message='')
+
+        # 返回结果
+        return JsonResponse({'code': 0, 'errmsg': 'ok'})

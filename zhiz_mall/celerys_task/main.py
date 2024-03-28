@@ -13,4 +13,4 @@ app = Celery('celerys_task')
 app.config_from_object('celerys_task.config')
 
 # 让celery检测包
-app.autodiscover_tasks(['celerys_task.sms'])
+app.autodiscover_tasks(['celerys_task.sms', 'celerys_task.emailss'])

@@ -283,7 +283,7 @@ EMAIL_HOST_PASSWORD = '123456abc'
 
 
 #收件人看到的发件人
-# EMAIL_FROM = '美多商城<qi_rui_hua@163.com>'
+EMAIL_FROM = '枝枝<qi_rui_hua@163.com>'
 
 
 #########加载自定义文件存储类#######################
