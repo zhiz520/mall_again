@@ -1,8 +1,10 @@
+const host = 'http://www.meiduo.site:8080'
+
 var vm = new Vue({
     el: '#app',
     delimiters: ['[[', ']]'],
     data: {
-        host,
+        host: host,
         username: sessionStorage.username || localStorage.username,
         token: sessionStorage.token || localStorage.token,
         tab_content: {

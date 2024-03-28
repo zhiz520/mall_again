@@ -1,3 +1,5 @@
+const host = 'http://www.meiduo.site:8080'
+
 var vm = new Vue({
     el: '#app',
     delimiters: ['[[', ']]'], // 修改vue模板符号，防止与django冲突

@@ -1,7 +1,9 @@
+const host = 'http://www.meiduo.site:8080/'
+
 var vm = new Vue({
     el: '#app',
     data: {
-        host,
+        host: host,
         username: '',
         skus: [],
         freight: 0, // 运费

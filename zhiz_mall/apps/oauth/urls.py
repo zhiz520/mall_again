@@ -1,5 +1,5 @@
 from django.urls import path
-from oauth.views import OauthQQView, QQLoginUrlView
+from apps.oauth.views import OauthQQView, QQLoginUrlView
 
 
 urlpatterns = [
