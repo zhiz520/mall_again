@@ -101,7 +101,12 @@ DATABASES = {
         'PORT': 3306,  # 数据库端口
         'USER': 'root',  # 数据库用户名
         'PASSWORD': '123',  # 数据库用户密码
-        'NAME': 'zhizhi_mall'  # 数据库名字
+        'NAME': 'zhizhi_mall',  # 数据库名字
+        'OPTIONS':{
+            'init_command': "SET sql_mode='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION'",
+            'charset': 'utf8mb4',
+            'use_unicode': True,
+        },
     },
     'slave': {
         'ENGINE': 'django.db.backends.mysql',  # 数据库引擎
