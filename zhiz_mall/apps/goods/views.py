@@ -91,7 +91,7 @@ class HotView(View):
             return JsonResponse({'code': 400, 'errmsg': '参数缺失'})
         
         # 查询对应的sku数据， 然后排序
-        skus = SKU.objects.filter(category=category, is_launched=True).order_by('-sales')[:3]
+        skus = SKU.objects.filter(category=category, is_launched=True).order_by('-sales')[:3] # 根据sales字段的值排序
         
         # 将对象转换字典数据
         sku_list = []
