@@ -78,3 +78,30 @@ class ListView(View):
         })
 
         
+class HotView(View):
+    '''
+    热销排行
+    '''
+    def get(self, request, category_id):
+
+        # 获取category对象
+        try:
+            category = ContentCategory.objects.get(id=category_id)
+        except ContentCategory.DoesNotExist:
+            return JsonResponse({'code': 400, 'errmsg': '参数缺失'})
+        
+        # 查询对应的sku数据， 然后排序
+        skus = SKU.objects.filter(category=category, is_launched=True).order_by('-sales')[:3]
+        
+        # 将对象转换字典数据
+        sku_list = []
+        for sku in skus:
+            sku_list.append({
+                'id': sku.id,
+                'name': sku.name,
+                'price': sku.price,
+                'default_image_url': sku.default_image.url
+            })
+        
+        return JsonResponse({'code': 0, 'errmsg': 'ok', 'hot_skus': sku_list})
+
