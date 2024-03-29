@@ -63,7 +63,7 @@ class ListView(View):
         
         # 将对象转换字典数据
         sku_list = []
-        for sku in skus:
+        for sku in page_sku.object_list:
             sku_list.append({
                 'id': sku.id,
                 'name': sku.name,
