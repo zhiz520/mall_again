@@ -122,8 +122,6 @@ def get_goods_specs(sku):
     return goods_specs
 
 
-
-
-
-
+if __name__ == '__main__':
+    print(get_categories())
 

@@ -26,3 +26,5 @@ class IndexView(View):
         }
 
         return render(request, 'index.html', context)
+    
+print(get_categories())

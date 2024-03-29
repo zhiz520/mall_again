@@ -29,7 +29,7 @@ SECRET_KEY = '+qiwhqle^zz4=zjq%q!buk81_5$t3nxk0+^%fm90iq22d=n3b('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.meiduo.site','127.0.0.1']
+ALLOWED_HOSTS = ['www.zhiz.mall','127.0.0.1', 'www.zhiz.mall']
 
 
 # Application definition
@@ -259,8 +259,8 @@ AUTH_USER_MODEL = 'users.User'
 CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:8080',
     'http://localhost:8080',
-    'http://www.meiduo.site:8080',
-    'http://www.meiduo.site:8000'
+    'http://www.zhiz.mall:8080',
+    'http://www.zhiz.mall:8000'
 )
 CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
 
@@ -269,8 +269,8 @@ CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
 QQ_CLIENT_ID = '101474184'
 # 我们申请的 客户端秘钥
 QQ_CLIENT_SECRET = 'c6ce949e04e12ecc909ae6a8b09b637c'
-# 我们申请时添加的: 登录成功后回调的路径
-QQ_REDIRECT_URI = 'http://127.0.0.1:8080/oauth_callback.html'
+# 登录成功后回调的路径
+QQ_REDIRECT_URI = 'http://www.zhiz.mall:8080/oauth_callback.html'
 
 
 ############邮件发送相关###########################
@@ -332,6 +332,6 @@ CRONJOBS = [
 ALIPAY_APPID = '2016091600523030'
 ALIPAY_DEBUG = True
 ALIPAY_URL = 'https://openapi.alipaydev.com/gateway.do'
-ALIPAY_RETURN_URL = 'http://www.meiduo.site:8080/pay_success.html'
+ALIPAY_RETURN_URL = 'http://www.zhiz.mall:8080/pay_success.html'
 APP_PRIVATE_KEY_PATH = os.path.join(BASE_DIR, 'apps/pay/key/app_private_key.pem')
 ALIPAY_PUBLIC_KEY_PATH = os.path.join(BASE_DIR, 'apps/pay/key/alipay_public_key.pem')

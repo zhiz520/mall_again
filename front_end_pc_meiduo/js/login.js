@@ -1,4 +1,4 @@
-const host = 'http://www.meiduo.site:8080/'
+const host = 'http://www.zhiz.mall:8080/'
 
 var vm = new Vue({
     el: '#app',
