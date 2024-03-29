@@ -1,5 +1,3 @@
-const host = 'http://www.zhiz.mall:8080/'
-
 var vm = new Vue({
     el: '#app',
     data: {

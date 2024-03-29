@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 # https://gitee.com/itcastitheima/shunyi_git_42.git 远程仓库地址
 
 import os
+from datetime import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -29,7 +30,7 @@ SECRET_KEY = '+qiwhqle^zz4=zjq%q!buk81_5$t3nxk0+^%fm90iq22d=n3b('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.zhiz.mall','127.0.0.1', 'www.zhiz.mall']
+ALLOWED_HOSTS = ['www.zhiz.mall','127.0.0.1','localhost', 'www.meiduo.site']
 
 
 # Application definition
@@ -225,7 +226,7 @@ LOGGING = {
         'file': {
             'level': 'ERROR',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': 'myapp.log_%(asctime)s',
+            'filename': 'myapp.log_',
             'maxBytes': 10240,  # 10MB
             'backupCount': 5,
         },
@@ -260,7 +261,8 @@ CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:8080',
     'http://localhost:8080',
     'http://www.zhiz.mall:8080',
-    'http://www.zhiz.mall:8000'
+    'http://www.zhiz.mall:8000',
+    'http://www.meiduo.site:8080',
 )
 CORS_ALLOW_CREDENTIALS = True  # 允许携带cookie
 
@@ -293,7 +295,7 @@ EMAIL_FROM = '枝枝<qi_rui_hua@163.com>'
 
 #########加载自定义文件存储类#######################
 # 指定自定义的Django文件存储类
-DEFAULT_FILE_STORAGE = 'utils.fastdfs.storage.MyStorage'
+DEFAULT_FILE_STORAGE = 'utils.storage1.MyStorage'
 
 
 #########ES的配置#################

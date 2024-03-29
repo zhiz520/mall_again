@@ -7,7 +7,7 @@ key = b'AgTkpqEkmH0nUtUdtml-HKJ2Oeamz_B6SjPL8G6rrxA='
 
 def crypt_encode(opendi, key=key):
     a = Fernet(key)
-    b = a.encrypt(opendi)
+    b = a.encrypt(str(opendi).encode())
     return b
 
 

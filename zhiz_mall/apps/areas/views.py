@@ -14,7 +14,7 @@ class AreaView(View):
         data = cache.get('province_list')
         print(type(data))
         if data is not None:
-            return JsonResponse({'code': 0, 'errmsg': 'ok', 'province_list': data.decode()})
+            return JsonResponse({'code': 0, 'errmsg': 'ok', 'province_list': data})
         # 获取数据
         provinces = Area.objects.filter(parent=None)
         province_list = []

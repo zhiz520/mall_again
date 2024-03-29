@@ -11,6 +11,7 @@ from utils.views1 import LoginJsonMixin
 import json
 import re
 
+from celerys_task.emailss.tasks import send_email_async
 
 # Create your views here.
 class UserCountView(View):
@@ -143,8 +144,9 @@ class EmailView(LoginJsonMixin, View):
         # 加密email
         token = crypt_encode(user.id)
         # 激活链接
-        html_message = '点击激活 <a href=http://www.zhiz.com/?token={}> 激活</a>'.format(token)
-        send_mail('枝枝邮箱验证', '', 'qi_rui_hua@163.com', [email], html_message='')
+        html_message = '点击激活 <a href="http://www.zhiz.com/?token={}"> 激活</a>'.format(token)
+        # send_mail('枝枝邮箱验证', '', 'qi_rui_hua@163.com', [email], html_message=html_message)
+        send_email_async([email], html_message=html_message)
 
         # 返回结果
         return JsonResponse({'code': 0, 'errmsg': 'ok'})
@@ -161,7 +163,7 @@ class EmailVerifyView(View):
             return JsonResponse({'code': 400, 'errmsg': '缺少token参数'})
         
         # 解密token
-        user_id = crypt_encode(token)
+        user_id = crypt_decode(token)
         # 查询数据库
         try:
             user = User.objects.get(id=user_id)

@@ -6,7 +6,7 @@ from libs.yuntongxun.sms import CCP
 
 from django.http import HttpResponse, JsonResponse
 from django_redis import get_redis_connection
-
+from celerys_task.sms.tasks import celery_sms_code
 
 # Create your views here.
 class ImageCodeView(View):
@@ -54,7 +54,8 @@ class SmsCodeView(View):
         pipeline.setex('send_flag_{}'.format(mobile), 60, 1)
         pipeline.execute()
         # 发送短信验证码
-        CCP().send_template_sms(mobile, [sms_code, 5], 1)
+        # CCP().send_template_sms(mobile, [sms_code, 5], 1)
+        celery_sms_code.delay(mobile, sms_code)
         
         # 返回响应
         return JsonResponse({'code': 0, 'errmsg': 'ok'})
