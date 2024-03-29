@@ -270,9 +270,11 @@ class AddressUpdateView(View):
         for key, value in data.items():
             if hasattr(address, key):
                 setattr(address, key, value)
+
         address.save()
+        address_data = serialize('json', address)
         # 返回结果
-        return JsonResponse({'code': 0, 'errmsg': 'ok'})
+        return JsonResponse({'code': 0, 'errmsg': 'ok', 'address': address_data})
 
 
 class AddressDeleteView(View):

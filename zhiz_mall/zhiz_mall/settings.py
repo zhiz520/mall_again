@@ -52,9 +52,9 @@ INSTALLED_APPS = [
     # 'apps.orders',
     # 'apps.pay',
     # # CORS
-    # 'corsheaders',
+    'corsheaders',
     # # haystack
-    # 'haystack',
+    'haystack',
     # 'django_crontab',
 ]
 
@@ -301,39 +301,39 @@ DEFAULT_FILE_STORAGE = 'utils.storage1.MyStorage'
 #########ES的配置#################
 HAYSTACK_CONNECTIONS = {
     'default': {
-        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-        'URL': 'http://192.168.19.128:9200/',
-        'INDEX_NAME': 'meiduo',
+        'ENGINE': 'haystack.backends.elasticsearch2_backend.Elasticsearch2SearchEngine',
+        'URL': 'http://127.0.0.1:9200/',
+        'INDEX_NAME': 'haystack',
     },
 }
 # 设置搜索 每页返回的记录条数
 HAYSTACK_SEARCH_RESULTS_PER_PAGE = 5
 
 
-#########定时任务##############
+# #########定时任务##############
 
-"""
-# 元素的第一个参数是 频次
-分 时 日 月 周    命令
+# """
+# # 元素的第一个参数是 频次
+# 分 时 日 月 周    命令
 
-M: 分钟（0-59）。每分钟用 * 或者 */1 表示
-H：小时（0-23）。（0表示0点）
-D：天（1-31）。
-m: 月（1-12）。
-d: 一星期内的天（0~6，0为星期天）。
+# M: 分钟（0-59）。每分钟用 * 或者 */1 表示
+# H：小时（0-23）。（0表示0点）
+# D：天（1-31）。
+# m: 月（1-12）。
+# d: 一星期内的天（0~6，0为星期天）。
 
-# 元素的第二个参数是 定时任务（函数）
-"""
-CRONJOBS = [
-    ('*/1 * * * *','apps.contents.crons.generic_meiduo_index','>> ' + os.path.join(BASE_DIR, 'logs/crontab.log'))
+# # 元素的第二个参数是 定时任务（函数）
+# """
+# CRONJOBS = [
+#     ('*/1 * * * *','apps.contents.crons.generic_meiduo_index','>> ' + os.path.join(BASE_DIR, 'logs/crontab.log'))
 
-]
+# ]
 
-######################支付宝支付相关##################################
+# ######################支付宝支付相关##################################
 
-ALIPAY_APPID = '2016091600523030'
-ALIPAY_DEBUG = True
-ALIPAY_URL = 'https://openapi.alipaydev.com/gateway.do'
-ALIPAY_RETURN_URL = 'http://www.zhiz.mall:8080/pay_success.html'
-APP_PRIVATE_KEY_PATH = os.path.join(BASE_DIR, 'apps/pay/key/app_private_key.pem')
-ALIPAY_PUBLIC_KEY_PATH = os.path.join(BASE_DIR, 'apps/pay/key/alipay_public_key.pem')
+# ALIPAY_APPID = '2016091600523030'
+# ALIPAY_DEBUG = True
+# ALIPAY_URL = 'https://openapi.alipaydev.com/gateway.do'
+# ALIPAY_RETURN_URL = 'http://www.zhiz.mall:8080/pay_success.html'
+# APP_PRIVATE_KEY_PATH = os.path.join(BASE_DIR, 'apps/pay/key/app_private_key.pem')
+# ALIPAY_PUBLIC_KEY_PATH = os.path.join(BASE_DIR, 'apps/pay/key/alipay_public_key.pem')

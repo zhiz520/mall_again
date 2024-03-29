@@ -105,3 +105,5 @@ class HotView(View):
         
         return JsonResponse({'code': 0, 'errmsg': 'ok', 'hot_skus': sku_list})
 
+# 配合搜索引擎实现全文检索, 原理， 设置关键字和搜索词条的对应关系，并记录位置， 类似清华字典 elsaticsearch
+# 数据和搜索引擎的中间桥梁： Haystack
