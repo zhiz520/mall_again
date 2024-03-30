@@ -6,7 +6,11 @@ from apps.contents.models import ContentCategory
 from apps.goods.models import SKU
 
 from django.core.paginator import Paginator
+from django.template import loader
 from haystack.views import SearchView
+
+from zhiz_mall import settings
+import os
 
 # Create your views here.
 class IndexView(View):
@@ -140,3 +144,34 @@ class SKUSearchView(SearchView):
             })
 
         return JsonResponse(context_list, safe=False)
+    
+
+# 静态化渲染
+def generic_zhiz_index():
+    # 1， 广告数据
+    contents = {}
+
+    categories = get_categories()
+    for cat in categories:
+        contents[cat.key] = cat.content_set.filter(status=True).order_by('sequence')
+
+
+    context = {
+        'categories': categories,
+        'contents': contents
+    }
+    # 1.加载渲染的模板
+    index_tamplate = loader.get_template('index.html')
+
+    # 2.把数据给模板
+    index_html_data = index_tamplate.render(context)
+
+    # 3.把渲染好的html， 写入指定文件
+    file_path = os.path.join(os.path.dirname(settings.BASE_DIR), 'front_end_pc/index.html')
+
+    with open(file_path, 'w') as f:
+        f.write(index_html_data)
+
+
+
+    
