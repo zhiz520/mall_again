@@ -6,6 +6,7 @@ from apps.contents.models import ContentCategory
 from apps.goods.models import SKU
 
 from django.core.paginator import Paginator
+from haystack.views import SearchView
 
 # Create your views here.
 class IndexView(View):
@@ -107,3 +108,35 @@ class HotView(View):
 
 # 配合搜索引擎实现全文检索, 原理， 设置关键字和搜索词条的对应关系，并记录位置， 类似清华字典 elsaticsearch
 # 数据和搜索引擎的中间桥梁： Haystack
+
+class SKUSearchView(SearchView):
+
+    def create_response(self):
+        """
+        Generates the actual HttpResponse to send back to the user.
+        """
+
+        context = self.get_context()
+        # 转化json数据
+        context_list = []
+        for sku in context['page'].object_list:
+            context_list.append({
+
+                # 'id': sku.id,
+                # 'name': sku.object.name,
+                # 'price': sku.object.price,
+                # 'default_image_url': sku.object.default_image.url,
+                # 'searchkey': sku.object.get('query'),
+                # 'page_size': context['page'].paginator.num_pages,
+                # 'count': context['page'].paginator.count;
+                'id': sku.object.id,
+                'name': sku.object.name,
+                'price': sku.object.price,
+                'default_image_url': sku.object.default_image.url,
+                'searchkey': sku.context.get('query'),
+                'page_size': context['page'].paginator.num_pages,
+                'count': context['page'].paginator.count
+
+            })
+
+        return JsonResponse(context_list, safe=False)

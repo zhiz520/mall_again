@@ -226,7 +226,7 @@ LOGGING = {
         'file': {
             'level': 'ERROR',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': 'myapp.log_',
+            'filename': 'myapp.log',
             'maxBytes': 10240,  # 10MB
             'backupCount': 5,
         },
